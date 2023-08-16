@@ -45,7 +45,10 @@ class _TestPageState extends State<TestPage> {
             Expanded(
               child: ListView.builder(
                 itemCount: orders.length,
-                itemBuilder: (context, index) => _cardResult(orders[index]),
+                itemBuilder: (context, index) => _cardResult(
+                  orders[index],
+                  index % 2 > 0,
+                ),
               ),
             ),
           ],
@@ -68,7 +71,7 @@ class _TestPageState extends State<TestPage> {
           ),
         ),
         const SizedBox(width: 10),
-        Text(" AND "),
+        Text(" OR "),
         const SizedBox(width: 10),
         Expanded(
           child: TextFormField(
@@ -96,9 +99,11 @@ class _TestPageState extends State<TestPage> {
     );
   }
 
-  _cardResult(UserOrder order) => Column(
-        children: [
-          Row(
+  _cardResult(UserOrder order, bool divide) => Material(
+        color: divide ? Colors.transparent : Colors.grey.withOpacity(0.4),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text("Total : ${order.total}"),
@@ -108,12 +113,6 @@ class _TestPageState extends State<TestPage> {
               ),
             ],
           ),
-          const Divider(
-            thickness: 2,
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-        ],
+        ),
       );
 }

@@ -6,11 +6,13 @@ import '../models/order.dart';
 import '../objectbox.g.dart';
 
 class DbBuilder {
-  List<UserOrder> userOrders(String userName, double discount, double price) {
+  List<UserOrder> userOrders(String userName, double price, double discount) {
     Box<UserOrder> userOrderBox = store.box<UserOrder>();
 
     QueryBuilder<UserOrder> queryBuilder = userOrderBox.query(UserOrder_.total
         .greaterOrEqual(price)
+
+        /// TODO : try to change this or to and it will work fine but using or not working correctly
         .or(UserOrder_.discount.greaterOrEqual(discount)));
 
     queryBuilder.link(UserOrder_.user, User_.name.contains(userName));
